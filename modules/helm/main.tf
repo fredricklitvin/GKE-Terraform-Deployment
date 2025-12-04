@@ -34,3 +34,16 @@ resource "helm_release" "argocd" {
   #   value = "plaintext:${var.admin_password}"
   # }
 }
+
+resource "helm_release" "prometheus" {
+  name       = "prometheus"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  namespace  = "prometheus"
+  create_namespace = true
+  values = [
+    file("${path.module}/prometheus-values.yaml")
+  ]
+  timeout = 300
+  
+}

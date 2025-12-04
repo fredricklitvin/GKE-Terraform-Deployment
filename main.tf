@@ -31,7 +31,7 @@ module "service_account" {
   project = var.project
   region = var.region
   github_repository = var.github_repository
-  project_suffix = "v7"
+  project_suffix = "v8"
 
 }
 
