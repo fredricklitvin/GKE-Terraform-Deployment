@@ -21,3 +21,26 @@ alertmanager:
           resources:
             requests:
               storage: 2Gi 
+
+
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: default
+  # datasources:
+  #   datasources.yaml:
+  #     apiVersion: 1
+  #     datasources:
+  #       - name: Prometheus
+  #         type: prometheus
+  #         access: proxy
+  #         url: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+  #         isDefault: true
+  
+  service:
+    enabled: true
+    type: LoadBalancer
+    port: 80          
+    targetPort: 3000

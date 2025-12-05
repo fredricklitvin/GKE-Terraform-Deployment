@@ -1,8 +1,3 @@
-# locals {
-#   argocd_rendered_values = templatefile("${path.module}/argocd-values.yaml"
-#   # ,{git_repo_url = var.github_repository , k8s_path = var.k8s_path}
-#   )
-# }
 
 
 resource "helm_release" "argocd" {
@@ -14,32 +9,32 @@ resource "helm_release" "argocd" {
 
   timeout = 300
 
-  
-
-#  values = [
-#     file("${path.module}/argocd-values.yaml")
-#   ]
-
   set {
     name  = "server.service.type"
     value = "LoadBalancer"
   }
-  # set {
-  #   name  = "configs.secret.createSecret"
-  #   value = "true"
-  # }
+}
 
-  # set {
-  #   name  = "configs.secret.argocdServerAdminPassword"
-  #   value = "plaintext:${var.admin_password}"
-  # }
+
+resource "kubernetes_config_map" "grafana_k8s_dashboard" {
+  metadata {
+    name      = "grafana-k8s-kubernetes-cluster"
+    namespace = "monitoring" 
+    labels = {
+      grafana_dashboard = "1"         
+    }
+  }
+
+  data = {
+    "k8s-cluster-dashboard.json" = file("${path.module}/15661_rev2.json")
+  }
 }
 
 resource "helm_release" "prometheus" {
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
-  namespace  = "prometheus"
+  namespace  = "monitoring"
   create_namespace = true
   values = [
     file("${path.module}/prometheus-values.yaml")
