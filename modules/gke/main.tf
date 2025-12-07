@@ -17,7 +17,7 @@ resource "google_container_cluster" "default" {
   private_cluster_config {
     enable_private_nodes    = false #change to true for private nodes
     enable_private_endpoint = false 
-    master_ipv4_cidr_block  = var.private_master_ipv4
+    # master_ipv4_cidr_block  = var.private_master_ipv4
   }
   # master_authorized_networks_config {
   #   cidr_blocks {
