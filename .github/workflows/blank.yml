@@ -30,6 +30,11 @@ jobs:
           workload_identity_provider: "projects/1090649208923/locations/global/workloadIdentityPools/github-actions-pool-v15/providers/github-actions-provider-v15"
           service_account: "sgithub-actions-v15@brave-inn-477912-q1.iam.gserviceaccount.com"
 
+      - name: Who am I
+        run: |
+            gcloud auth list
+            cloud config list account
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
