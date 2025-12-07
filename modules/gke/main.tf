@@ -15,16 +15,16 @@ resource "google_container_cluster" "default" {
   enable_autopilot = false
   deletion_protection = false
   private_cluster_config {
-    enable_private_nodes    = true
+    enable_private_nodes    = false #change to true for private nodes
     enable_private_endpoint = false 
     master_ipv4_cidr_block  = var.private_master_ipv4
   }
-  master_authorized_networks_config {
-    cidr_blocks {
-      display_name = "my-workstation"
-      cidr_block   = var.master_authorized_cidr_block   # use curl -4 ifconfig.me to get it
-    }
-  }
+  # master_authorized_networks_config {
+  #   cidr_blocks {
+  #     display_name = "my-workstation"
+  #     cidr_block   = var.master_authorized_cidr_block   # use curl -4 ifconfig.me to get it
+  #   }
+  # }
   node_config {
     service_account = google_service_account.gke_node_sa.email
     oauth_scopes = [
