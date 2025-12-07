@@ -5,6 +5,7 @@ module "service" {
   }
 module network {
   source = "./modules/network"
+  region = var.region
 }
 
 module "gke" {
@@ -31,11 +32,14 @@ module "service_account" {
   project = var.project
   region = var.region
   github_repository = var.github_repository
-  project_suffix = "v11"
+  project_suffix = "v15"
 
 }
 
 module "argocd" {
   source = "./modules/argocd"
   depends_on = [module.helm]
+  github_repository = var.github_repository
+  github_branch = var.github_branch
+  github_path = var.github_path
 }

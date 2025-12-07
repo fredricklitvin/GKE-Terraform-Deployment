@@ -7,19 +7,20 @@ resource "helm_release" "argocd" {
   namespace        = "argocd"
   create_namespace = true
 
-  timeout = 300
+  timeout = 600
 
   set {
     name  = "server.service.type"
     value = "LoadBalancer"
   }
+  
 }
 
 
 resource "kubernetes_config_map" "grafana_k8s_dashboard" {
   metadata {
     name      = "grafana-k8s-kubernetes-cluster"
-    namespace = "monitoring" 
+    namespace = "default" 
     labels = {
       grafana_dashboard = "1"         
     }
@@ -39,6 +40,6 @@ resource "helm_release" "prometheus" {
   values = [
     file("${path.module}/prometheus-values.yaml")
   ]
-  timeout = 300
+  timeout = 600
   
 }

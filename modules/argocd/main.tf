@@ -17,9 +17,9 @@ resource "argocd_application" "my_app" {
         project = "default"
     
         source {
-        repo_url        = "https://github.com/fredricklitvin/k8s-project-helm.git"
-        target_revision = "main"          
-        path            = "k8s-app"  
+        repo_url        = "var.github_repository"
+        target_revision = "var.github_branch"       
+        path            = "var.github_path"
         helm {
             value_files = ["values.yaml"]
         }
