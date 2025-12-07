@@ -1,0 +1,49 @@
+name: Terraform GCP
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write        
+      contents: read
+
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 🔐 Authenticate to GCP via Workload Identity Federation
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/1090649208923/locations/global/workloadIdentityPools/github-actions-pool-v15/providers/github-actions-provider-v15"
+          service_account: "sgithub-actions-v15@brave-inn-477912-q1.iam.gserviceaccount.com"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform Init
+        working-directory: .
+        run: terraform init -input=false
+
+      - name: Terraform Plan
+        working-directory: .
+        run: terraform plan -input=false -out=tfplan
+
+      # ⚠️ For real projects you may want this only on push to main or with manual approval
+      - name: Terraform Apply
+        working-directory: .
+        run: terraform apply -input=false -auto-approve tfplan
