@@ -27,14 +27,14 @@ module "helm" {
 }
 
 
-module "service_account" {
-  source = "./modules/service_account"
-  project = var.project
-  region = var.region
-  github_repository = var.github_repository
-  project_suffix = "v15"
+# module "service_account" {
+#   source = "./modules/service_account"
+#   project = var.project
+#   region = var.region
+#   github_repository = var.github_repository
+#   project_suffix = "v15"
 
-}
+# }
 
 module "argocd" {
   source = "./modules/argocd"
