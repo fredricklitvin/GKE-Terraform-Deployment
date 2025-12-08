@@ -29,21 +29,6 @@ output "argocd_initial_admin_password" {
   description = "Initial Argo CD admin password (null after first login)"
 }
 
-# data "kubernetes_secret" "argocd_admin" {
-#   metadata {
-#     name      = "argocd-initial-admin-secret"
-#     namespace = "argocd"
-#   }
-
-#   depends_on = [helm_release.argocd]  # adjust name to your Argo CD helm_release
-# }
-
-# output "argocd_initial_admin_password" {
-#   value     = base64decode(data.kubernetes_secret.argocd_admin.data["password"])
-#   sensitive = false
-# }
-
-
 data "kubernetes_service" "prometheus_grafana" {
   metadata {
     name      = "prometheus-grafana" 
@@ -61,17 +46,21 @@ output "prometheus_grafana_ip" {
     "LoadBalancer IP is pending. Run 'kubectl get svc -n prometheus' after apply."
   )
 }
-# data "kubernetes_secret" "grafana" {
-#   metadata {
-#     name      = "prometheus-grafana"
-#     namespace = "monitoring"
-#   }
 
-#   depends_on = [helm_release.prometheus]  
-# }
+data "kubernetes_service" "loki_grafana" {
+  metadata {
+    name      = "loki-grafana" 
+    namespace = helm_release.loki.namespace
+  }
+    depends_on             = [helm_release.loki]
+}
 
-# output "grafana_admin_password" {
-#   value     = base64decode(data.kubernetes_secret.grafana.data["admin-password"])
-#   sensitive = false  
-# }
-
+output "loki_grafana_ip" {
+  description = "The external IP for the Loki Grafana server LoadBalancer."
+  value = try(
+    coalesce(
+      data.kubernetes_service.loki_grafana.status[0].load_balancer[0].ingress[0].ip
+    ),
+    "LoadBalancer IP is pending. Run 'kubectl get svc -n monitoring' after apply."
+  )
+}
