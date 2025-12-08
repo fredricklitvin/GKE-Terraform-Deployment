@@ -17,9 +17,9 @@ resource "argocd_application" "my_app" {
         project = "default"
     
         source {
-        repo_url        = "var.github_repository"
-        target_revision = "var.github_branch"       
-        path            = "var.github_path"
+        repo_url        = var.github_repository
+        target_revision = var.github_branch     
+        path            = var.github_path
         helm {
             value_files = ["values.yaml"]
         }
