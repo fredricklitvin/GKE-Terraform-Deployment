@@ -22,7 +22,7 @@ module "helm" {
   source = "./modules/helm"
   depends_on = [module.gke]
   github_repository = var.github_repository
-  k8s_path = "k8s-app"
+  k8s_path = var.github_path
 
 }
 
