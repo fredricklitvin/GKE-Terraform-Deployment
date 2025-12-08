@@ -1,0 +1,45 @@
+name: Terraform Destroy GCP
+
+on:
+  # Run only manually from the GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  terraform-destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write      # required for OIDC to GCP
+      contents: read
+
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/1090649208923/locations/global/workloadIdentityPools/github-actions-pool-v15/providers/github-actions-provider-v15"
+          service_account: "sgithub-actions-v15@brave-inn-477912-q1.iam.gserviceaccount.com"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform Init
+        working-directory: .
+        run: terraform init -input=false
+
+      - name: Terraform Plan Destroy
+        working-directory: .
+        run: terraform plan -destroy -input=false -out=tfdestroy
+
+      - name: Terraform Destroy
+        working-directory: .
+        run: terraform apply -input=false -auto-approve tfdestroy
