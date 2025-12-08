@@ -18,7 +18,7 @@ variable zone {
 
 variable github_repository {
   type        = string
-  default     = "https://github.com/bitnami/charts.git"
+  default     = "https://github.com/fredricklitvin/k8s-project-helm.git"
   description = "GitHub repository URL"
 }
 
@@ -29,6 +29,6 @@ variable github_branch {
 }
 variable github_path {
   type        = string
-  default     = "template/CHART_NAME"
+  default     = "k8s-app"
   description = "Path to the chart in the GitHub repository"
 }
