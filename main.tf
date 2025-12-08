@@ -36,10 +36,11 @@ module "helm" {
 
 # }
 
-module "argocd" {
-  source = "./modules/argocd"
-  depends_on = [module.helm]
-  github_repository = var.github_repository
-  github_branch = var.github_branch
-  github_path = var.github_path
-}
+#add later
+# module "argocd" {
+#   source = "./modules/argocd"
+#   depends_on = [module.helm]
+#   github_repository = var.github_repository
+#   github_branch = var.github_branch
+#   github_path = var.github_path
+# }
