@@ -7,7 +7,7 @@ resource "helm_release" "argocd" {
   namespace        = "argocd"
   create_namespace = true
 
-  timeout = 300
+  timeout = 600
 
   set {
     name  = "server.service.type"
@@ -40,7 +40,7 @@ resource "helm_release" "prometheus" {
   values = [
     file("${path.module}/prometheus-values.yaml")
   ]
-  timeout = 300
+  timeout = 600
   
 }
 
@@ -51,7 +51,7 @@ resource "helm_release" "loki" {
   namespace        = "monitoring"
   create_namespace = true
 
-  timeout = 300
+  timeout = 600
 
     set {
     name  = "grafana.enabled"
