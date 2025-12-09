@@ -30,10 +30,10 @@ grafana:
       datasources:
         - name: Prometheus
           type: prometheus
-          uid: prometheus  
-          url: http://prometheus-operated:9090 
+          uid: prometheus
+          url: http://prometheus-operated:9090
           access: proxy
-          isDefault: true
+          isDefault: true  
           jsonData:
             httpMethod: POST
             timeInterval: 30s
@@ -45,11 +45,18 @@ grafana:
           access: proxy
           jsonData:
             maxLines: 1000
+
+
   sidecar:
     dashboards:
       enabled: true
       label: grafana_dashboard
       searchNamespace: default
+    
+
+    datasources:
+      enabled: false
+      defaultDatasourceEnabled: false
   
   service:
     enabled: true
