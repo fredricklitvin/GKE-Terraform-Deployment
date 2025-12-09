@@ -1,5 +1,18 @@
+kubelet:
+  # This enables the ServiceMonitor required to scrape metrics from the Kubelet (cAdvisor metrics)
+  enabled: true
+  
+  # Ensure the service monitor correctly targets the Kubelet metrics
+  serviceMonitor:
+    metricRelabelings:
+      # This rule ensures that core resource metrics are not accidentally dropped
+      - sourceLabels: [__name__]
+        regex: '(container_.*|kubelet_.*)'
+        action: keep
+
 prometheus:
   prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
     storageSpec:
       volumeClaimTemplate:
         spec:
