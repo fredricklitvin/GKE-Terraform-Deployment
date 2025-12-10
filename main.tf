@@ -21,12 +21,12 @@ module "gke" {
   secondary_ip_range_1 = module.network.private_subnet_ip_range_1
   secondary_ip_range_0 = module.network.private_subnet_ip_range_0
   region = var.region
+  depends_on = [module.buckets]
 }
 
 module "helm" {
   source = "./modules/helm"
   depends_on = [module.gke]
-  depends_on = [module.buckets]
   github_repository = var.github_repository
   k8s_path = var.github_path
 
