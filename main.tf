@@ -8,6 +8,11 @@ module network {
   region = var.region
 }
 
+module "buckets" {
+  source = "./modules/buckets"
+  region = var.region
+}
+
 module "gke" {
   source = "./modules/gke"
   project = var.project
@@ -21,6 +26,7 @@ module "gke" {
 module "helm" {
   source = "./modules/helm"
   depends_on = [module.gke]
+  depends_on = [module.buckets]
   github_repository = var.github_repository
   k8s_path = var.github_path
 

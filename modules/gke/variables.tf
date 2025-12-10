@@ -4,6 +4,7 @@ variable "gke_node_roles" {
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
     "roles/artifactregistry.reader",
+    "roles/storage.objectAdmin"
   ]
 }
 
