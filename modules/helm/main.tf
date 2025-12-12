@@ -37,7 +37,7 @@ resource "helm_release" "prometheus" {
   chart      = "kube-prometheus-stack"
   namespace  = "monitoring"
   create_namespace = true
-  version = "70.7.0"
+  # version = "70.7.0"
   values = [
     file("${path.module}/prometheus-values.yaml")
   ]
@@ -48,10 +48,10 @@ resource "helm_release" "prometheus" {
 resource "helm_release" "loki" {
   name             = "loki"
   repository       = "https://grafana.github.io/helm-charts"
-  chart            = "loki"
+  chart            = "loki-stack"
   namespace        = "monitoring"
   create_namespace = true
-  version = "6.29.0"
+  # version = "6.29.0"
 
   timeout = 300
 
