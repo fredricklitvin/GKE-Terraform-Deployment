@@ -24,6 +24,13 @@ test:
   enabled: false
 
 # All loki settings combined under one key
+
+gateway:
+  enabled: true
+  service:
+    type: LoadBalancer
+    port: 80
+
 loki:
   useTestSchema: true
   auth_enabled: false
