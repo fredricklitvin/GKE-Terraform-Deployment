@@ -65,11 +65,11 @@ grafana:
   #           maxLines: 1000
 
 
-  sidecar:
-    dashboards:
-      enabled: true
-      label: grafana_dashboard
-      searchNamespace: default
+  # sidecar:
+  #   dashboards:
+  #     enabled: true
+  #     label: grafana_dashboard
+  #     searchNamespace: default
     
 
   #   datasources:
