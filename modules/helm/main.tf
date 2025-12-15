@@ -45,18 +45,18 @@ resource "helm_release" "prometheus" {
   depends_on = [helm_release.loki]
 }
 
-resource "helm_release" "loki" {
-  name             = "loki"
-  repository       = "https://grafana.github.io/helm-charts"
-  chart            = "loki-stack"
-  namespace        = "monitoring"
-  create_namespace = true
-  # version = "6.29.0"
+# resource "helm_release" "loki" {
+#   name             = "loki"
+#   repository       = "https://grafana.github.io/helm-charts"
+#   chart            = "loki-stack"
+#   namespace        = "monitoring"
+#   create_namespace = true
+#   # version = "6.29.0"
 
-  timeout = 300
+#   timeout = 300
 
-  values = [
-    file("${path.module}/loki-values.yaml")
-  ]
+#   values = [
+#     file("${path.module}/loki-values.yaml")
+#   ]
   
-}
+# }
