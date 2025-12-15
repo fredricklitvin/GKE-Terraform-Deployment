@@ -42,7 +42,7 @@ resource "helm_release" "prometheus" {
     file("${path.module}/prometheus-values.yaml")
   ]
   timeout = 300
-  depends_on = [helm_release.loki]
+
 }
 
 # resource "helm_release" "loki" {

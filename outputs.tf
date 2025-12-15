@@ -9,7 +9,7 @@ output "prometheus_grafana_ip" {
   value       = "http://${module.helm.prometheus_grafana_ip}:80"
 }
 
-output "loki_grafana_ip" {
-  description = "Loki Grafana endpoint ip address."
-  value       = "http://${module.helm.loki_grafana_ip}:80"
-}
+# output "loki_grafana_ip" {
+#   description = "Loki Grafana endpoint ip address."
+#   value       = "http://${module.helm.loki_grafana_ip}:80"
+# }

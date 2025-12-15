@@ -47,20 +47,20 @@ output "prometheus_grafana_ip" {
   )
 }
 
-data "kubernetes_service" "loki_grafana" {
-  metadata {
-    name      = "loki-grafana" 
-    namespace = helm_release.loki.namespace
-  }
-    depends_on             = [helm_release.loki]
-}
+# data "kubernetes_service" "loki_grafana" {
+#   metadata {
+#     name      = "loki-grafana" 
+#     namespace = helm_release.loki.namespace
+#   }
+#     depends_on             = [helm_release.loki]
+# }
 
-output "loki_grafana_ip" {
-  description = "The external IP for the Loki Grafana server LoadBalancer."
-  value = try(
-    coalesce(
-      data.kubernetes_service.loki_grafana.status[0].load_balancer[0].ingress[0].ip
-    ),
-    "LoadBalancer IP is pending. Run 'kubectl get svc -n monitoring' after apply."
-  )
-}
+# output "loki_grafana_ip" {
+#   description = "The external IP for the Loki Grafana server LoadBalancer."
+#   value = try(
+#     coalesce(
+#       data.kubernetes_service.loki_grafana.status[0].load_balancer[0].ingress[0].ip
+#     ),
+#     "LoadBalancer IP is pending. Run 'kubectl get svc -n monitoring' after apply."
+#   )
+# }
