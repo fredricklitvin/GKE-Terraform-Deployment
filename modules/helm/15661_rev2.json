@@ -26,7 +26,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 8,
   "links": [
     {
       "icon": "bolt",
@@ -4451,7 +4451,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(irate(container_cpu_usage_seconds_total{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}[2m])) by (container, pod) / (max(container_spec_cpu_quota{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}/100000) by (container, pod)) * 100",
+          "expr": "sum by (pod, container) (\r\n  rate(container_cpu_usage_seconds_total{\r\n    namespace=~\"$NameSpace\",\r\n    pod=~\"$Pod\",\r\n    container=~\"$Container\",\r\n    container!=\"\",\r\n    container!=\"POD\"\r\n  }[5m])\r\n)\r\n",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4561,46 +4561,13 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max (container_memory_working_set_bytes{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}) by (container, pod)/ max(container_spec_memory_limit_bytes{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}) by (container, pod) * 100",
+          "expr": "sum by (pod, container) (\r\n  container_memory_working_set_bytes{\r\n    namespace=\"$NameSpace\",\r\n    container=~\"$Container\",\r\n    pod=~\"$Pod\",\r\n    container!=\"\",\r\n    container!=\"POD\"\r\n  }\r\n) / 1024 / 1024\r\n",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "WSS：{{ pod }}",
+          "legendFormat": "__auto",
           "metric": "container_memory_usage:sort_desc",
           "range": true,
           "refId": "A",
-          "step": 10
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "max (container_memory_rss{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}) by (container, pod)/ max(container_spec_memory_limit_bytes{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",container =~\"$Container\",container !=\"\",container!=\"POD\",node=~\"^$Node$\",namespace=~\"$NameSpace\"}) by (container, pod) * 100",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "RSS：{{ pod }}",
-          "metric": "container_memory_usage:sort_desc",
-          "range": true,
-          "refId": "B",
-          "step": 10
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "(cass_jvm_heap{service=~\"$Container\"} * on (pod_ip) group_right(service) kube_pod_info{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",namespace=~\"$NameSpace\"}) / (cass_jvm_heap_max{service=~\"$Container\"} * on (pod_ip) group_right(service) kube_pod_info{origin_prometheus=~\"$origin_prometheus\",pod=~\"$Pod\",namespace=~\"$NameSpace\"}) * 100",
-          "hide": true,
-          "instant": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Heap：{{ pod }}",
-          "metric": "container_memory_usage:sort_desc",
-          "refId": "C",
           "step": 10
         }
       ],
