@@ -1,10 +1,10 @@
 region = "us-central1"
 
-github_repository = "https://github.com/fredricklitvin/k8s-project-helm.git"
+github_repository = "https://github.com/fredricklitvin/docker-learning.git"
 
 github_branch = "main"
 
-github_path = "k8s-app"
+github_path = "fredi_sucks"
 
 cluster_name = "k8s"
 
